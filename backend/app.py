@@ -12,7 +12,7 @@ db = mongo.db
 
 @application.route('/api/ping')
 def ping():
-    '''Registers in a database table the time and date of the “ping” request'''
+    ''' Registers in a database table the time and date of the “ping” request '''
     item = {
         'ping_time': datetime.now()
     }
@@ -24,17 +24,20 @@ def ping():
 
 @application.route('/api/calculator', methods=['POST'])
 def calculator():
-    '''Returns the some of two given values'''
+    ''' Returns the some of two given values '''
     data = request.get_json(force=True)
-    _choice = random.choice([data['x'], data['y']])
+    _choice = choiceCalc([data['x'], data['y']])
     return jsonify(
         status=True,
         data=_choice
     ), 200
 
+def choiceCalc(arr):
+    return random.choice(arr)
+
 @application.route('/api/pings')
 def pings():
-    '''Returns the list of saved pings'''
+    ''' Returns the list of saved pings '''
     _pings = db.apidata.find()
     item = {}
     data = []
